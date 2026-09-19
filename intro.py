@@ -28,13 +28,15 @@ def Creating_Combining_Objects():
     owner2 = Owner("Bob", "Candle Street", '800000')
         
     dog1 = Dog("Tiger", "German Shperd", owner1)
+    dog2 = Dog("Dragon", "Bull Dog", owner2)
+
     print(dog1.owner.name)
     dog1.details()
     dog1.owner.details()
 
-    dog2 = Dog("Dragon", "Bull Dog", owner2)
     print(dog2.owner.name)
     dog2.details()
     dog2.owner.details
+
 
 
