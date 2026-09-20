@@ -6,8 +6,8 @@ class User:
     def __init__(self, username, email, password):
 
         self.username = username
-        self._email = email  # Private
-        self.__password = password # Name mangled (Protected)
+        self._email = email  # Protected
+        self.__password = password # Name mangled (Private )
         self.updated_time = ''
 
     def get_details(self):
@@ -30,6 +30,3 @@ user1.set_email("john123@gmail.com")
 user1.get_details()
 
 user1.get_pass()
-
-
-
