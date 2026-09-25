@@ -118,11 +118,18 @@ class ContactBook:
 
         print("Contact Updated!")
 
+    def SearchContact():
+        while True:
+            name = input("Enter name to search(case insensitive, enter q to exit): ").lower()
+            if name == 'q':
+                break
+            if name in ContactBook.contact_data:
+                data = ContactBook.contact_data[name]
+                print(f"Name: {data["name"]}\nEmail: {data["email"]}\nPhone: {data["phone"]}")
+            else:
+                print("Contact Not Found!")
 
-        
 
-    def SearchContact(name):
-        pass
 
     def get_List():
         pass
@@ -131,6 +138,6 @@ class ContactBook:
         pass
 
 
-ContactBook.UpdateContact()
+ContactBook.SearchContact()
         
 
