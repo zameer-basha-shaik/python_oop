@@ -14,8 +14,8 @@ class ContactBook:
     with open(filepath, mode = 'r') as f:
         contact_data = json.load(f)
 
-    def update_contacts_file(data: dict):
-        if not data:
+    def update_contacts_file():
+        if not ContactBook.contact_data:
             return
         with open(filepath,mode='w') as fp:
             json.dump(ContactBook.contact_data, fp, indent=2)
@@ -59,6 +59,8 @@ class ContactBook:
                 break
 
         ContactBook.contact_data[key_name] = {"name": name, "email": email, "phone": phone}
+        ContactBook.update_contacts_file()
+        print("Contact Created!")
 
             
     def UpdateContact():
@@ -114,7 +116,7 @@ class ContactBook:
         if name.lower() != key_name and name!= '0':
             ContactBook.contact_data[name.lower()] = ContactBook.contact_data.pop(key_name)
 
-        ContactBook.update_contacts_file(ContactBook.contact_data)
+        ContactBook.update_contacts_file()
 
         print("Contact Updated!")
 
@@ -122,6 +124,7 @@ class ContactBook:
         while True:
             name = input("Enter name to search(case insensitive, enter q to exit): ").lower()
             if name == 'q':
+                print("Searching Ended")
                 break
             if name in ContactBook.contact_data:
                 data = ContactBook.contact_data[name]
@@ -130,14 +133,31 @@ class ContactBook:
                 print("Contact Not Found!")
 
 
-
     def get_List():
-        pass
+        if ContactBook.contact_data == {}:
+            print("No Contact data!")
+        else:
+            print('CONTACT LIST:\n')
+            count = 1
+            for i in ContactBook.contact_data:
+                data = ContactBook.contact_data[i]
+                print(f"{count}.Name: {data["name"]}\n  Email: {data["email"]}\n  Phone: {data["phone"]}")
+                print()
+                count+=1
 
     def DeleteContact():
-        pass
+        while True:
+            name = input("Enter Contact Name to delete:(enter q to quit) ")
+            if name == 'q':
+                break
+            if name.lower() not in ContactBook.contact_data:
+                print("Contact Doesn't Exist")
+            else:
+                ContactBook.contact_data.pop(name)
+                ContactBook.update_contacts_file()
+                print("Contact Deleted!")
 
 
-ContactBook.SearchContact()
-        
+
+
 
