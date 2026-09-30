@@ -1,4 +1,4 @@
-from contact import Contacts, ContactBook
+from contact import Contact, ContactBook
 
 def main():
     is_running = True

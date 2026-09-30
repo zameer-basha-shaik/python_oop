@@ -1,10 +1,11 @@
 import json
 import os
 
-filepath = "CLI ContactBook/contacts.json"
+
+filepath = os.path.dirname(os.path.realpath(__file__))+"/contacts.json"
 
 
-class Contacts:
+class Contact:
     def __init__(self, name: str, phone: str, email: str):
         self.name = name
         self.phone = phone
@@ -17,13 +18,24 @@ class ContactBook:
     if os.path.exists(filepath):
         with open(filepath, mode='r') as f:
             contact_data = json.load(f)
+            for key, data in contact_data.items():
+                contact_data[key] = Contact(data["name"], data["phone"], data["email"])
+
     else:
         contact_data = {}
 
     @staticmethod
     def update_contacts_file():
+
         with open(filepath, mode='w') as fp:
-            json.dump(ContactBook.contact_data, fp, indent=2)
+            data = {}
+            for key, contact in ContactBook.contact_data.items():
+                data[key] = {
+                    "name" : contact.name,
+                    "email" : contact.email,
+                    "phone" : contact.phone
+                }
+            json.dump(data, fp, indent=2)
 
     @staticmethod
     def CreateContact():
@@ -63,12 +75,9 @@ class ContactBook:
             else:
                 break
 
-        ContactBook.contact_data[key_name] = {
-            "name": name,
-            "email": email,
-            "phone": phone
-        }
+        contact = Contact(name, phone, email)  
 
+        ContactBook.contact_data[key_name] = contact
         ContactBook.update_contacts_file()
 
         print("Contact Created!")
@@ -90,7 +99,7 @@ class ContactBook:
             "Leave email empty to delete it."
         )
 
-        old_data = ContactBook.contact_data[key_name]
+        contact = ContactBook.contact_data[key_name]
 
         # ---------- NAME ----------
         while True:
@@ -108,7 +117,7 @@ class ContactBook:
             if new_key != key_name and new_key in ContactBook.contact_data:
                 print("Name Already Exists!")
             else:
-                old_data["name"] = name
+                contact.name = name
                 break
 
         # ---------- EMAIL ----------
@@ -119,7 +128,7 @@ class ContactBook:
                 break
 
             if not email or '@' in email:
-                old_data["email"] = email
+                contact.email = email
                 break
             else:
                 print("Invalid Email!")
@@ -138,11 +147,11 @@ class ContactBook:
             elif len(phone) != 10:
                 print("Number Should Have 10 Digits!")
             else:
-                old_data["phone"] = phone
+                contact.phone = phone
                 break
 
         # If name was changed, change dictionary key
-        new_key = old_data["name"].lower()
+        new_key = contact.name.lower()
 
         if new_key != key_name:
             ContactBook.contact_data[new_key] = ContactBook.contact_data.pop(key_name)
@@ -168,9 +177,9 @@ class ContactBook:
                 data = ContactBook.contact_data[name]
 
                 print(
-                    f"Name: {data['name']}\n"
-                    f"Email: {data['email']}\n"
-                    f"Phone: {data['phone']}"
+                    f"Name: {data.name}\n"
+                    f"Email: {data.email}\n"
+                    f"Phone: {data.phone}"
                 )
 
             else:
@@ -192,9 +201,9 @@ class ContactBook:
             data = ContactBook.contact_data[key]
 
             print(
-                f"{count}. Name: {data['name']}\n"
-                f"   Email: {data['email']}\n"
-                f"   Phone: {data['phone']}"
+                f"{count}. Name: {data.name}\n"
+                f"   Email: {data.email}\n"
+                f"   Phone: {data.phone}"
             )
 
             print()
