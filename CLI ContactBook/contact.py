@@ -13,23 +13,21 @@ class Contact:
 
 
 class ContactBook:
+    def __init__(self):
+        # Load existing contacts
+        if os.path.exists(filepath):
+            with open(filepath, mode='r') as f:
+                self.contact_data = json.load(f)
+                for key, data in self.contact_data.items():
+                    self.contact_data[key] = Contact(data["name"], data["phone"], data["email"])
+        else:
+            self.contact_data = {}
 
-    # Load existing contacts
-    if os.path.exists(filepath):
-        with open(filepath, mode='r') as f:
-            contact_data = json.load(f)
-            for key, data in contact_data.items():
-                contact_data[key] = Contact(data["name"], data["phone"], data["email"])
-
-    else:
-        contact_data = {}
-
-    @staticmethod
-    def update_contacts_file():
+    def update_contacts_file(self):
 
         with open(filepath, mode='w') as fp:
             data = {}
-            for key, contact in ContactBook.contact_data.items():
+            for key, contact in self.contact_data.items():
                 data[key] = {
                     "name" : contact.name,
                     "email" : contact.email,
@@ -37,8 +35,7 @@ class ContactBook:
                 }
             json.dump(data, fp, indent=2)
 
-    @staticmethod
-    def CreateContact():
+    def CreateContact(self):
 
         while True:
             name = input("Enter contact's name (should be unique): ")
@@ -50,7 +47,7 @@ class ContactBook:
 
             if not name:
                 print("Name cannot be empty.")
-            elif key_name in ContactBook.contact_data:
+            elif key_name in self.contact_data:
                 print("Name Already Exists!")
             else:
                 break
@@ -77,18 +74,17 @@ class ContactBook:
 
         contact = Contact(name, phone, email)  
 
-        ContactBook.contact_data[key_name] = contact
-        ContactBook.update_contacts_file()
+        self.contact_data[key_name] = contact
+        self.update_contacts_file()
 
         print("Contact Created!")
 
-    @staticmethod
-    def UpdateContact():
+    def UpdateContact(self):
 
         while True:
             key_name = input("Enter Contact name to search: ").lower()
 
-            if key_name not in ContactBook.contact_data:
+            if key_name not in self.contact_data:
                 print("Name doesn't exist")
             else:
                 break
@@ -99,7 +95,7 @@ class ContactBook:
             "Leave email empty to delete it."
         )
 
-        contact = ContactBook.contact_data[key_name]
+        contact = self.contact_data[key_name]
 
         # ---------- NAME ----------
         while True:
@@ -114,7 +110,7 @@ class ContactBook:
 
             new_key = name.lower()
 
-            if new_key != key_name and new_key in ContactBook.contact_data:
+            if new_key != key_name and new_key in self.contact_data:
                 print("Name Already Exists!")
             else:
                 contact.name = name
@@ -154,14 +150,13 @@ class ContactBook:
         new_key = contact.name.lower()
 
         if new_key != key_name:
-            ContactBook.contact_data[new_key] = ContactBook.contact_data.pop(key_name)
+            self.contact_data[new_key] = self.contact_data.pop(key_name)
 
-        ContactBook.update_contacts_file()
+        self.update_contacts_file()
 
         print("Contact Updated!")
 
-    @staticmethod
-    def SearchContact():
+    def SearchContact(self):
 
         while True:
             name = input(
@@ -172,9 +167,9 @@ class ContactBook:
                 print("Searching Ended")
                 break
 
-            if name in ContactBook.contact_data:
+            if name in self.contact_data:
 
-                data = ContactBook.contact_data[name]
+                data = self.contact_data[name]
 
                 print(
                     f"Name: {data.name}\n"
@@ -185,20 +180,20 @@ class ContactBook:
             else:
                 print("Contact Not Found!")
 
-    @staticmethod
-    def get_List():
+    def get_List(self):
 
-        if not ContactBook.contact_data:
+        if not self.contact_data:
             print("No Contact data!")
             return
 
         print("CONTACT LIST:\n")
+        self.contact_data = dict(sorted(self.contact_data.items()))
 
         count = 1
 
-        for key in ContactBook.contact_data:
+        for key in self.contact_data:
 
-            data = ContactBook.contact_data[key]
+            data = self.contact_data[key]
 
             print(
                 f"{count}. Name: {data.name}\n"
@@ -210,8 +205,7 @@ class ContactBook:
 
             count += 1
 
-    @staticmethod
-    def DeleteContact():
+    def DeleteContact(self):
 
         while True:
 
@@ -224,11 +218,11 @@ class ContactBook:
 
             key_name = name.lower()
 
-            if key_name not in ContactBook.contact_data:
+            if key_name not in self.contact_data:
                 print("Contact Doesn't Exist")
             else:
-                ContactBook.contact_data.pop(key_name)
+                self.contact_data.pop(key_name)
 
-                ContactBook.update_contacts_file()
+                self.update_contacts_file()
 
                 print("Contact Deleted!")

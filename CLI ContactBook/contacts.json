@@ -1,8 +1,23 @@
 {
+  "kiran kumar": {
+    "name": "kiran kumar",
+    "email": "@",
+    "phone": "1212121212"
+  },
   "mahesh": {
     "name": "Mahesh",
     "email": "mahesh@gmail.com",
     "phone": "1234567890"
+  },
+  "pavan": {
+    "name": "Pavan",
+    "email": "pavan@123",
+    "phone": "1234567890"
+  },
+  "roshan mazhar": {
+    "name": "roshan mazhar",
+    "email": "2@",
+    "phone": "1212121234"
   },
   "shanmuk": {
     "name": "Shanmuk",
@@ -13,10 +28,5 @@
     "name": "Zameer",
     "email": "sk@123.com",
     "phone": "1231231231"
-  },
-  "kiran kumar": {
-    "name": "kiran kumar",
-    "email": "@",
-    "phone": "1212121212"
   }
 }

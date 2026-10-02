@@ -1,6 +1,8 @@
 from contact import Contact, ContactBook
 
 def main():
+
+    book = ContactBook()
     is_running = True
     while is_running:
         print("Press Control+C, to stop program at any point.")
@@ -10,15 +12,15 @@ def main():
         if option == '0':
             is_running = False
         elif option == '1':
-            ContactBook.CreateContact()
+            book.CreateContact()
         elif option == '2':
-            ContactBook.get_List()
+            book.get_List()
         elif option == '3':
-            ContactBook.SearchContact()
+            book.SearchContact()
         elif option == '4':
-            ContactBook.UpdateContact()
+            book.UpdateContact()
         elif option == '5':
-            ContactBook.DeleteContact()
+            book.DeleteContact()
         else:
             print("Invalid Option!")
 
